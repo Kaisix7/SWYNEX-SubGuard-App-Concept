@@ -53,7 +53,7 @@
 
 ## Раздел 6. Операции (Operations)
 
-* [x] **21. Playbook:** Написан документ [PLAYBOOK.md](file:///Users/karina.b/Documents/GitHub/docs/PLAYBOOK.md) с пошаговыми сценариями решения проблем.
+* [x] **21. Playbook:** Написан документ [PLAYBOOK.md](PLAYBOOK.md) с пошаговыми сценариями решения проблем.
 * [x] **22. Health Check:** Реализован эндпоинт `/api/health/`, проверяющий статус подключения к PostgreSQL и кэшу Redis.
 * [x] **23. Перезапуск проекта:** Команда имеет доступ к кнопке "Manual Deploy" и "Restart Service" на Render для быстрого перезапуска.
 * [x] **24. Jira Done:** Все задачи по разработке, тестированию и интеграциям закрыты и переведены в статус Done.
