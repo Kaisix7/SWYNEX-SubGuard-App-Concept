@@ -48,7 +48,7 @@ graph TD
 
 ## 3. Session Replay & Recording
 * **Status**: **Enabled**.
-* **Configuration**: The PostHog JavaScript snippet in [web/index.html](file:///Users/karina.b/Documents/GitHub/web/index.html) is configured with `session_recording: { maskAllInputFields: false }` to capture full visual sessions (interactions, scrolls, button clicks) on the Web Client, masking password inputs automatically.
+* **Configuration**: The PostHog JavaScript snippet in [web/index.html](../web/index.html) is configured with `session_recording: { maskAllInputFields: false }` to capture full visual sessions (interactions, scrolls, button clicks) on the Web Client, masking password inputs automatically.
 * **Verification**: Sessions are recorded and available in the **Session Replays** tab on the PostHog Dashboard.
 
 ---
@@ -61,7 +61,7 @@ graph TD
 ---
 
 ## 5. Google Analytics 4 (GA4) Integration
-* **Measurement ID**: Configured inside [web/index.html](file:///Users/karina.b/Documents/GitHub/web/index.html).
+* **Measurement ID**: Configured inside [web/index.html](../web/index.html).
 * **Real-time Verification**: Pageviews and custom events are verified live in the Google Analytics Real-Time Dashboard.
 * **Event Mapping**: 
   * `user signed up` -> GA4 `sign_up`
