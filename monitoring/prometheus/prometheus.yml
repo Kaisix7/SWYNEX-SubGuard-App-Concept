@@ -7,16 +7,27 @@ rule_files:
 
 alerting:
   alertmanagers:
-    - static_configs:
+    - scheme: https
+      static_configs:
+        - targets:
+            - "alertmanager-x69h.onrender.com:443"
+    - scheme: http
+      static_configs:
         - targets:
             - "alertmanager:9093"
 
 scrape_configs:
   - job_name: "prometheus"
     static_configs:
-      - targets: ["localhost:9090"]
+      - targets: ["localhost:10000"]
 
   - job_name: "backend"
+    metrics_path: "/metrics"
+    scheme: https
+    static_configs:
+      - targets: ["pathway-backend-htas.onrender.com"]
+
+  - job_name: "backend-local"
     metrics_path: "/metrics"
     static_configs:
       - targets: ["backend:8000"]
