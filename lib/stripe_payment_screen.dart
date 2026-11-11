@@ -5,6 +5,7 @@ import 'payment_service.dart';
 import 'state.dart';
 import 'models.dart';
 import 'analytics.dart';
+import 'branding.dart';
 
 /// A premium, beautiful payment screen integrating Stripe.
 class StripePaymentScreen extends StatefulWidget {
@@ -109,7 +110,7 @@ class _StripePaymentScreenState extends State<StripePaymentScreen> with SingleTi
       await Stripe.instance.initPaymentSheet(
         paymentSheetParameters: SetupPaymentSheetParameters(
           paymentIntentClientSecret: clientSecret,
-          merchantDisplayName: 'Pathway App',
+          merchantDisplayName: AppBranding.appName,
           style: ThemeMode.dark,
         ),
       );
@@ -242,7 +243,7 @@ class _StripePaymentScreenState extends State<StripePaymentScreen> with SingleTi
                 ),
                 const SizedBox(height: 20),
                 const Text(
-                  'Pathway Premium Pass',
+                  AppBranding.premiumPlanName,
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 26,

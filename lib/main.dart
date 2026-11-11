@@ -5,10 +5,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'l10n/app_localizations.dart';
 
 import 'analytics.dart';
+import 'branding.dart';
 import 'firebase_options.dart';
+import 'mirror_theme.dart';
 import 'state.dart';
 import 'views.dart';
-import 'services_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,17 +28,17 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  runApp(const PathwayApp());
+  runApp(const SubGuardApp());
 }
 
-class PathwayApp extends StatefulWidget {
-  const PathwayApp({super.key});
+class SubGuardApp extends StatefulWidget {
+  const SubGuardApp({super.key});
 
   @override
-  State<PathwayApp> createState() => _PathwayAppState();
+  State<SubGuardApp> createState() => _SubGuardAppState();
 }
 
-class _PathwayAppState extends State<PathwayApp> {
+class _SubGuardAppState extends State<SubGuardApp> {
   final app = AppState();
 
   @override
@@ -47,7 +48,7 @@ class _PathwayAppState extends State<PathwayApp> {
       builder: (_, __) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-          title: 'PATHWAY',
+          title: AppBranding.appName,
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           locale: app.locale,
@@ -55,39 +56,39 @@ class _PathwayAppState extends State<PathwayApp> {
             useMaterial3: true,
             brightness: Brightness.dark,
             colorScheme: const ColorScheme.dark(
-              primary: Color(0xFFE8D44D),      // Bold yellow accent
-              secondary: Color(0xFFE8D44D),
-              surface: Color(0xFF111111),       // Near-black surface
-              onPrimary: Color(0xFF0A0A0A),     // Black text on yellow
-              onSecondary: Color(0xFF0A0A0A),
-              onSurface: Colors.white,
+              primary: MirrorColors.accent,          // Polished titanium gold accent
+              secondary: MirrorColors.accentSteel,    // Polished steel
+              surface: MirrorColors.surface,          // Deep obsidian glass surface
+              onPrimary: MirrorColors.onAccent,       // Contrast dark on gold
+              onSecondary: Colors.white,
+              onSurface: MirrorColors.textPrimary,
             ),
-            scaffoldBackgroundColor: const Color(0xFF0A0A0A),
+            scaffoldBackgroundColor: MirrorColors.background,
             textTheme: GoogleFonts.interTextTheme(ThemeData.dark().textTheme).copyWith(
               headlineLarge: GoogleFonts.inter(
                 textStyle: const TextStyle(
                   fontWeight: FontWeight.w900,
-                  color: Colors.white,
+                  color: MirrorColors.textPrimary,
                   letterSpacing: -1.5,
                 ),
               ),
               headlineMedium: GoogleFonts.inter(
                 textStyle: const TextStyle(
                   fontWeight: FontWeight.w900,
-                  color: Colors.white,
+                  color: MirrorColors.textPrimary,
                   letterSpacing: -1.0,
                 ),
               ),
               titleLarge: GoogleFonts.inter(
                 textStyle: const TextStyle(
                   fontWeight: FontWeight.w800,
-                  color: Colors.white,
+                  color: MirrorColors.textPrimary,
                   letterSpacing: -0.5,
                 ),
               ),
             ),
             appBarTheme: const AppBarTheme(
-              backgroundColor: Color(0xFF0A0A0A),
+              backgroundColor: MirrorColors.background,
               elevation: 0,
               centerTitle: false,
               surfaceTintColor: Colors.transparent,
@@ -95,16 +96,16 @@ class _PathwayAppState extends State<PathwayApp> {
                 fontFamily: 'Inter',
                 fontSize: 18,
                 fontWeight: FontWeight.w900,
-                color: Colors.white,
+                color: MirrorColors.textPrimary,
                 letterSpacing: -0.3,
               ),
             ),
             navigationBarTheme: NavigationBarThemeData(
-              backgroundColor: const Color(0xFF111111),
-              indicatorColor: const Color(0xFFE8D44D),
+              backgroundColor: MirrorColors.backgroundSecondary,
+              indicatorColor: MirrorColors.accent,
               iconTheme: WidgetStateProperty.resolveWith((states) {
                 if (states.contains(WidgetState.selected)) {
-                  return const IconThemeData(color: Color(0xFF0A0A0A), size: 22);
+                  return const IconThemeData(color: MirrorColors.onAccent, size: 22);
                 }
                 return const IconThemeData(color: Colors.white38, size: 22);
               }),
@@ -113,7 +114,7 @@ class _PathwayAppState extends State<PathwayApp> {
                   return const TextStyle(
                     fontWeight: FontWeight.w900,
                     fontSize: 10,
-                    color: Color(0xFFE8D44D),
+                    color: MirrorColors.accent,
                     letterSpacing: 0.8,
                   );
                 }
@@ -126,36 +127,36 @@ class _PathwayAppState extends State<PathwayApp> {
               }),
             ),
             cardTheme: CardThemeData(
-              color: const Color(0xFF141414),
+              color: MirrorColors.surface,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
-                side: const BorderSide(color: Color(0xFF242424), width: 1),
+                side: const BorderSide(color: MirrorColors.borderSubtle, width: 1),
               ),
               elevation: 0,
             ),
             inputDecorationTheme: InputDecorationTheme(
               filled: true,
-              fillColor: const Color(0xFF1A1A1A),
+              fillColor: MirrorColors.surface,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: const BorderSide(color: Color(0xFF2A2A2A)),
+                borderSide: const BorderSide(color: MirrorColors.borderSubtle),
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: const BorderSide(color: Color(0xFF2A2A2A)),
+                borderSide: const BorderSide(color: MirrorColors.borderSubtle),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: const BorderSide(color: Color(0xFFE8D44D), width: 1.5),
+                borderSide: const BorderSide(color: MirrorColors.accent, width: 1.5),
               ),
-              labelStyle: const TextStyle(color: Colors.white38, fontWeight: FontWeight.w600),
-              hintStyle: const TextStyle(color: Colors.white24),
-              prefixIconColor: Colors.white38,
+              labelStyle: const TextStyle(color: MirrorColors.textSecondary, fontWeight: FontWeight.w600),
+              hintStyle: const TextStyle(color: MirrorColors.textMuted),
+              prefixIconColor: MirrorColors.textSecondary,
             ),
             elevatedButtonTheme: ElevatedButtonThemeData(
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFFE8D44D),
-                foregroundColor: const Color(0xFF0A0A0A),
+                backgroundColor: MirrorColors.accent,
+                foregroundColor: MirrorColors.onAccent,
                 elevation: 0,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                 textStyle: const TextStyle(
@@ -165,7 +166,7 @@ class _PathwayAppState extends State<PathwayApp> {
                 ),
               ),
             ),
-            dividerTheme: const DividerThemeData(color: Color(0xFF1E1E1E), thickness: 1),
+            dividerTheme: const DividerThemeData(color: MirrorColors.borderSubtle, thickness: 1),
           ),
           home: app.authed ? Shell(app: app) : AuthView(app: app),
         );
