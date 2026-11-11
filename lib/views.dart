@@ -21,6 +21,8 @@ import 'map_view.dart';
 import 'visa_views.dart';
 import 'l10n/app_localizations.dart';
 import 'stripe_payment_screen.dart';
+import 'branding.dart';
+import 'mirror_theme.dart';
 
 class AuthView extends StatefulWidget {
   final AppState app;
@@ -136,7 +138,7 @@ class _AuthViewState extends State<AuthView> {
         title: const Text('Terms of Service'),
         content: const SingleChildScrollView(
           child: Text(
-            'By using PATHWAY, you agree to provide accurate registration information and use the app only for lawful service requests. '
+            'By using ${AppBranding.appName}, you agree to provide accurate registration information and use the app only for lawful service requests. '
             'The app currently supports an onboarding flow from registration to services and airport booking. '
             'Orders and account information may be stored to provide the requested services.',
           ),
@@ -158,7 +160,7 @@ class _AuthViewState extends State<AuthView> {
         title: const Text('Privacy Policy'),
         content: const SingleChildScrollView(
           child: Text(
-            'PATHWAY collects basic profile information such as name, email, and selected country. '
+            '${AppBranding.appName} collects basic profile information such as name, email, and selected country. '
             'This information is stored to support registration, onboarding, and service orders. '
             'Your basic data is not shared with third parties for marketing purposes in this MVP.',
           ),
@@ -363,7 +365,18 @@ class _AuthViewState extends State<AuthView> {
           child: Stack(
             fit: StackFit.expand,
             children: [
-              Container(color: const Color(0xFF0A0A0A)),
+              Container(
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      Color(0xFF0F121C),
+                      Color(0xFF08090E),
+                    ],
+                  ),
+                ),
+              ),
               // Subtle grid texture overlay
               Opacity(
                 opacity: 0.04,
@@ -388,7 +401,7 @@ class _AuthViewState extends State<AuthView> {
                         ),
                         const SizedBox(width: 12),
                         const Text(
-                          'PATHWAY',
+                          AppBranding.appName,
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w900,
@@ -414,7 +427,7 @@ class _AuthViewState extends State<AuthView> {
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
                       decoration: BoxDecoration(
-                        color: const Color(0xFFE8D44D),
+                        color: MirrorColors.accent,
                         borderRadius: BorderRadius.circular(6),
                       ),
                       child: const Text(
@@ -422,7 +435,7 @@ class _AuthViewState extends State<AuthView> {
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w800,
-                          color: Color(0xFF0A0A0A),
+                          color: MirrorColors.onAccent,
                           letterSpacing: 0.2,
                         ),
                       ),
@@ -438,7 +451,7 @@ class _AuthViewState extends State<AuthView> {
                     _heroBullet(Icons.smart_toy_outlined, 'AI immigration assistant'),
                     const Spacer(),
                     Text(
-                      'PATHWAY • Digital Relocation Platform',
+                      AppBranding.fullTitle,
                       style: TextStyle(
                         color: Colors.white.withOpacity(0.2),
                         fontSize: 11,
@@ -486,7 +499,7 @@ class _AuthViewState extends State<AuthView> {
                 ),
                 const SizedBox(width: 10),
                 const Text(
-                  'PATHWAY',
+                  AppBranding.appName,
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w900,
@@ -812,7 +825,7 @@ class _AuthViewState extends State<AuthView> {
       ),
       const SizedBox(height: 16),
       _hintBox(
-        title: 'What you get in PATHWAY',
+        title: 'What you get in ${AppBranding.appName}',
         lines: const [
           'Priority IIN appointment booking helper',
           'Verified housing database access',
@@ -1088,8 +1101,10 @@ class _ShellState extends State<Shell> {
     final safeIndex = index >= pages.length ? 0 : index;
     return Scaffold(
       body: pages[safeIndex],
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: safeIndex,
+      bottomNavigationBar: Container(
+        decoration: MirrorDecorations.topDivider(),
+        child: NavigationBar(
+          selectedIndex: safeIndex,
         onDestinationSelected: (i) {
           setState(() => index = i);
           final email = widget.app.contact.isNotEmpty ? widget.app.contact : widget.app.workerContact;
@@ -1153,6 +1168,7 @@ class _ShellState extends State<Shell> {
                   label: 'ACCOUNT',
                 ),
               ],
+        ),
       ),
     );
   }
@@ -1189,7 +1205,7 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
             children: [
               Text(title, style: const TextStyle(fontWeight: FontWeight.w900)),
               const SizedBox(height: 2),
-              const Text('DIGITAL RELOCATION', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w800, color: Color(0xFFE8D44D))),
+              const Text('DIGITAL RELOCATION', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w800, color: MirrorColors.accent)),
             ],
           ),
         ],
@@ -1252,7 +1268,7 @@ class HomeView extends StatelessWidget {
 
     return Scaffold(
       appBar: TopBar(
-        title: 'PATHWAY',
+        title: AppBranding.appName,
         app: app,
         trailing: CircleAvatar(
           radius: 18,
@@ -1388,23 +1404,23 @@ class HomeView extends StatelessWidget {
   Widget _roadmapCard({required String hello, required double progress, required int done, required int total}) {
     return Container(
       padding: const EdgeInsets.all(18),
-      decoration: BoxDecoration(
-        color: const Color(0xFF141414),
-        borderRadius: BorderRadius.circular(34),
-        border: Border.all(color: const Color(0xFF242424)),
-      ),
+      decoration: MirrorDecorations.glassCard(radius: 28),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('YOUR ROADMAP', style: TextStyle(fontWeight: FontWeight.w900, color: Colors.white38, letterSpacing: 1)),
+          const Text('YOUR ROADMAP', style: TextStyle(fontWeight: FontWeight.w900, color: MirrorColors.textSecondary, letterSpacing: 1)),
           const SizedBox(height: 8),
           Text(hello, style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 30, color: Colors.white)),
           const SizedBox(height: 16),
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: const Color(0xFF1A1A1A),
-              borderRadius: BorderRadius.circular(24),
+              gradient: const LinearGradient(
+                colors: [Color(0xFF1A1F2C), Color(0xFF10131E)],
+              ),
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(color: MirrorColors.borderSubtle),
+            ),
               border: Border.all(color: const Color(0xFF2A2A2A)),
             ),
             child: Row(
@@ -1449,21 +1465,18 @@ class HomeView extends StatelessWidget {
   Widget _priorityTaskTile(String text) {
     return Container(
       padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: const Color(0xFF141414),
-        borderRadius: BorderRadius.circular(22),
-        border: Border.all(color: const Color(0xFF242424)),
-      ),
+      decoration: MirrorDecorations.glassCard(radius: 20),
       child: Row(
         children: [
           Container(
             width: 44,
             height: 44,
             decoration: BoxDecoration(
-              color: const Color(0xFFE8D44D).withOpacity(0.15),
-              borderRadius: BorderRadius.circular(16),
+              color: MirrorColors.accent.withOpacity(0.15),
+              borderRadius: BorderRadius.circular(14),
+              border: Border.all(color: MirrorColors.accent.withOpacity(0.3)),
             ),
-            child: const Icon(Icons.check_circle, color: Color(0xFFE8D44D)),
+            child: const Icon(Icons.check_circle, color: MirrorColors.accent),
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -1472,7 +1485,7 @@ class HomeView extends StatelessWidget {
               children: [
                 Text(text, style: const TextStyle(fontWeight: FontWeight.w900)),
                 const SizedBox(height: 4),
-                const Text('LEGAL', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 11, color: Colors.white38, letterSpacing: 0.7)),
+                const Text('LEGAL', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 11, color: MirrorColors.textSecondary, letterSpacing: 0.7)),
               ],
             ),
           ),
@@ -1491,11 +1504,7 @@ class HomeView extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: const Color(0xFF141414),
-        borderRadius: BorderRadius.circular(22),
-        border: Border.all(color: const Color(0xFF242424)),
-      ),
+      decoration: MirrorDecorations.glassCard(radius: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -1670,22 +1679,18 @@ class ServicesView extends StatelessWidget {
     }
 
     return Scaffold(
-      appBar: TopBar(title: 'PATHWAY', app: app),
+      appBar: TopBar(title: AppBranding.appName, app: app),
       body: ListView(
         padding: const EdgeInsets.all(18),
         children: [
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
-            decoration: BoxDecoration(
-              color: const Color(0xFF141414),
-              borderRadius: BorderRadius.circular(22),
-              border: Border.all(color: const Color(0xFF242424)),
-            ),
+            decoration: MirrorDecorations.glassCard(radius: 20),
             child: Row(
               children: [
-                const Icon(Icons.search_rounded, color: Colors.white38),
+                const Icon(Icons.search_rounded, color: MirrorColors.textSecondary),
                 const SizedBox(width: 10),
-                Text('Search for a service…', style: TextStyle(color: Colors.white38, fontWeight: FontWeight.w700)),
+                Text('Search for a service…', style: TextStyle(color: MirrorColors.textSecondary, fontWeight: FontWeight.w700)),
               ],
             ),
           ),
@@ -1702,11 +1707,7 @@ class ServicesView extends StatelessWidget {
   Widget _serviceCard(_ServiceTile it) {
     return Container(
       padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: const Color(0xFF141414),
-        borderRadius: BorderRadius.circular(26),
-        border: Border.all(color: const Color(0xFF242424)),
-      ),
+      decoration: MirrorDecorations.glassCard(radius: 24),
       child: InkWell(
         onTap: it.onTap,
         borderRadius: BorderRadius.circular(22),
@@ -1719,6 +1720,7 @@ class ServicesView extends StatelessWidget {
               decoration: BoxDecoration(
                 color: it.color.withOpacity(0.14),
                 borderRadius: BorderRadius.circular(18),
+                border: Border.all(color: it.color.withOpacity(0.3)),
               ),
               child: Icon(it.icon, color: it.color),
             ),
@@ -1729,15 +1731,19 @@ class ServicesView extends StatelessWidget {
                 children: [
                   Text(it.title, style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 16)),
                   const SizedBox(height: 6),
-                  Text(it.subtitle, style: const TextStyle(fontWeight: FontWeight.w700, color: Colors.white38)),
+                  Text(it.subtitle, style: const TextStyle(fontWeight: FontWeight.w700, color: MirrorColors.textSecondary)),
                 ],
               ),
             ),
             Container(
               width: 44,
               height: 44,
-              decoration: BoxDecoration(color: const Color(0xFF1A1A1A), borderRadius: BorderRadius.circular(18)),
-              child: const Icon(Icons.chevron_right_rounded, color: Colors.white38),
+              decoration: BoxDecoration(
+                color: const Color(0xFF191D2C),
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: MirrorColors.borderSubtle),
+              ),
+              child: const Icon(Icons.chevron_right_rounded, color: MirrorColors.textSecondary),
             ),
           ],
         ),
@@ -1780,7 +1786,7 @@ class _AssistantViewState extends State<AssistantView> {
     final isChatLoading = widget.app.isChatLoading;
 
     return Scaffold(
-      appBar: TopBar(title: 'PATHWAY', app: widget.app),
+      appBar: TopBar(title: AppBranding.appName, app: widget.app),
       body: Column(
         children: [
           Expanded(
@@ -1915,7 +1921,7 @@ class AccountView extends StatelessWidget {
     final contact = app.role == UserRole.worker ? app.workerContact : app.contact;
 
     return Scaffold(
-      appBar: TopBar(title: 'PATHWAY', app: app),
+      appBar: TopBar(title: AppBranding.appName, app: app),
       body: ListView(
         padding: const EdgeInsets.all(18),
         children: [
@@ -2075,11 +2081,15 @@ class AccountView extends StatelessWidget {
         leading: Container(
           width: 44,
           height: 44,
-          decoration: BoxDecoration(color: const Color(0xFF1A1A1A), borderRadius: BorderRadius.circular(16)),
-          child: Icon(icon, color: const Color(0xFFE8D44D)),
+          decoration: BoxDecoration(
+            color: const Color(0xFF191D2C),
+            borderRadius: BorderRadius.circular(14),
+            border: Border.all(color: MirrorColors.borderSubtle),
+          ),
+          child: Icon(icon, color: MirrorColors.accent),
         ),
         title: Text(title, style: const TextStyle(fontWeight: FontWeight.w900)),
-        trailing: const Icon(Icons.chevron_right_rounded, color: Colors.white38),
+        trailing: const Icon(Icons.chevron_right_rounded, color: MirrorColors.textSecondary),
         onTap: onTap,
       ),
     );
@@ -2087,11 +2097,7 @@ class AccountView extends StatelessWidget {
 
   Widget _card({required Widget child}) {
     return Container(
-      decoration: BoxDecoration(
-        color: const Color(0xFF141414),
-        borderRadius: BorderRadius.circular(22),
-        border: Border.all(color: const Color(0xFF242424)),
-      ),
+      decoration: MirrorDecorations.glassCard(radius: 20),
       child: child,
     );
   }
@@ -2331,17 +2337,17 @@ class AccountView extends StatelessWidget {
   }
 }
 
-const String _aboutText =
-    'PATHWAY helps foreigners in Kazakhstan manage onboarding tasks: IIN, migration address, housing, airport pickup, visa reminders, maps and assistant guidance.';
+final String _aboutText =
+    '${AppBranding.appName} helps foreigners in Kazakhstan manage onboarding tasks: IIN, migration address, housing, airport pickup, visa reminders, maps and assistant guidance.';
 
 const String _helpText =
     'For support, check Services for the needed flow, open Orders to track requests, and use Assistant for common questions about IIN, visa, housing and airport pickup.';
 
-const String _termsText =
-    'By using PATHWAY, users agree to provide accurate information, use the service legally, and understand that this MVP provides guidance and order management rather than official government services.';
+final String _termsText =
+    'By using ${AppBranding.appName}, users agree to provide accurate information, use the service legally, and understand that this MVP provides guidance and order management rather than official government services.';
 
-const String _privacyText =
-    'PATHWAY stores profile, order and analytics data needed to provide the service. Sensitive data should be kept minimal. Data is used for support, order tracking and product analytics.';
+final String _privacyText =
+    '${AppBranding.appName} stores profile, order and analytics data needed to provide the service. Sensitive data should be kept minimal. Data is used for support, order tracking and product analytics.';
 
 class InfoPage extends StatelessWidget {
   final String title;
@@ -2577,11 +2583,7 @@ class _IinQueueViewState extends State<IinQueueView> {
 
   Widget _card({required Widget child}) {
     return Container(
-      decoration: BoxDecoration(
-        color: const Color(0xFF141414),
-        borderRadius: BorderRadius.circular(22),
-        border: Border.all(color: const Color(0xFF242424)),
-      ),
+      decoration: MirrorDecorations.glassCard(radius: 20),
       child: child,
     );
   }
@@ -2690,11 +2692,7 @@ class _HousingViewState extends State<HousingView> {
   Widget _filterCard(List<String> districts) {
     return Container(
       padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: const Color(0xFF141414),
-        borderRadius: BorderRadius.circular(22),
-        border: Border.all(color: const Color(0xFF242424)),
-      ),
+      decoration: MirrorDecorations.glassCard(radius: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -2751,11 +2749,7 @@ class _HousingViewState extends State<HousingView> {
     final badge = h.verified ? 'VERIFIED' : 'LISTED';
 
     return Container(
-      decoration: BoxDecoration(
-        color: const Color(0xFF141414),
-        borderRadius: BorderRadius.circular(26),
-        border: Border.all(color: const Color(0xFF242424)),
-      ),
+      decoration: MirrorDecorations.glassCard(radius: 24),
       child: Padding(
         padding: const EdgeInsets.all(14),
         child: Row(
@@ -3055,11 +3049,7 @@ class _AirportViewState extends State<AirportView> {
 
   Widget _card({required Widget child}) {
     return Container(
-      decoration: BoxDecoration(
-        color: const Color(0xFF141414),
-        borderRadius: BorderRadius.circular(22),
-        border: Border.all(color: const Color(0xFF242424)),
-      ),
+      decoration: MirrorDecorations.glassCard(radius: 20),
       child: child,
     );
   }
@@ -3214,11 +3204,7 @@ class _VisaDocsViewState extends State<VisaDocsView> {
   Widget _block({required String title, required List<String> items}) {
     return Container(
       padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: const Color(0xFF141414),
-        borderRadius: BorderRadius.circular(22),
-        border: Border.all(color: const Color(0xFF242424)),
-      ),
+      decoration: MirrorDecorations.glassCard(radius: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -3273,11 +3259,7 @@ class SubscriptionView extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: const Color(0xFF141414),
-        borderRadius: BorderRadius.circular(22),
-        border: Border.all(color: const Color(0xFF242424)),
-      ),
+      decoration: MirrorDecorations.glassCard(radius: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

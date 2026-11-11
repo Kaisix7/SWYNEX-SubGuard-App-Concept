@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:http/http.dart' as http;
 
 import 'analytics.dart';
+import 'branding.dart';
 import 'models.dart';
 import 'gemini_service.dart';
 import 'api_service.dart';
@@ -67,7 +68,7 @@ class AppState extends ChangeNotifier {
     ChatMsg(
       fromUser: false,
       text:
-          "Hi! I'm Pathway Assistant. Ask me about IIN, visa deadlines, housing, or EDS.",
+          "Hi! I'm ${AppBranding.assistantName}. Ask me about IIN, visa deadlines, housing, or EDS.",
       ts: DateTime.now(),
     ),
   ];
@@ -96,16 +97,18 @@ class AppState extends ChangeNotifier {
     nationality = '';
     nationalityCode = 'US';
 
-    FirebaseFirestore.instance.collection('users').add({
-      'role': 'foreigner',
-      'firstName': firstName,
-      'lastName': lastName,
-      'contact': contact,
-      'source': 'google_oauth',
-      'createdAt': DateTime.now(),
-    }).catchError((e) {
+    try {
+      await FirebaseFirestore.instance.collection('users').add({
+        'role': 'foreigner',
+        'firstName': firstName,
+        'lastName': lastName,
+        'contact': contact,
+        'source': 'google_oauth',
+        'createdAt': DateTime.now(),
+      });
+    } catch (e) {
       debugPrint('FIREBASE ERROR: $e');
-    });
+    }
 
     await Analytics.trackLogin(email, source: 'google');
     await Analytics.identify(email, properties: {
@@ -299,7 +302,7 @@ class AppState extends ChangeNotifier {
     chat.add(
       ChatMsg(
         fromUser: false,
-        text: 'Hi! I\'m Pathway Assistant. Ask me about IIN, visa deadlines, housing, or EDS.',
+        text: 'Hi! I\'m ${AppBranding.assistantName}. Ask me about IIN, visa deadlines, housing, or EDS.',
         ts: DateTime.now(),
       ),
     );
@@ -443,7 +446,15 @@ class AppState extends ChangeNotifier {
     isChatLoading = true;
     notifyListeners();
 
-    final reply = await gemini.ask(t);
+    String reply;
+    try {
+      reply = await gemini.ask(t);
+      if (reply.startsWith("Gemini error:")) {
+        reply = _assistantReply(t);
+      }
+    } catch (_) {
+      reply = _assistantReply(t);
+    }
 
     chat.add(
       ChatMsg(

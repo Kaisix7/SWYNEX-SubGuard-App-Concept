@@ -76,7 +76,7 @@ class _MapViewState extends State<MapView> {
       final response = await http.get(
         uri,
         headers: const {
-          'User-Agent': 'pathway-flutter-app/1.0 (map search)',
+          'User-Agent': 'new-app-name-app/1.0 (map search)',
           'Accept': 'application/json',
         },
       );
@@ -184,7 +184,7 @@ class _MapViewState extends State<MapView> {
                   child: ListView.separated(
                     shrinkWrap: true,
                     itemCount: _results.length,
-                    separatorBuilder: (_, __) => const Divider(height: 1),
+                    separatorBuilder: (_, _) => const Divider(height: 1),
                     itemBuilder: (context, index) {
                       final place = _results[index];
                       return ListTile(
@@ -217,7 +217,7 @@ class _MapViewState extends State<MapView> {
                     children: [
                       TileLayer(
                         urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                        userAgentPackageName: 'com.example.my_app',
+                        userAgentPackageName: 'com.swynex.subguard',
                       ),
                       MarkerLayer(
                         markers: [
